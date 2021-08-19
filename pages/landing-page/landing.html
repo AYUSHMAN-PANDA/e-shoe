@@ -7,6 +7,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" crossorigin="anonymous" />
+	<!-- CSS only -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
 	<link rel="stylesheet" href="style.css" />
 </head>
 
@@ -29,7 +33,7 @@
 			</form>
 		</div>
 		<div class="form-container sign-in-container">
-			<form action="#">
+			<form action="#" id="sign-in-form">
 				<h1>Sign in</h1>
 				<div class="social-container">
 					<a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -37,10 +41,11 @@
 					<a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
 				</div>
 				<span>or use your account</span>
-				<input type="email" placeholder="Email" />
-				<input type="password" placeholder="Password" />
+				<input id="email" type="email" placeholder="Email" />
+				<input id="pass" type="password" placeholder="Password" />
+				<div class="msg"></div>
 				<a href="#">Forgot your password?</a>
-				<button>Sign In</button>
+				<button type="submit">Sign In</button>
 			</form>
 		</div>
 		<div class="overlay-container">
