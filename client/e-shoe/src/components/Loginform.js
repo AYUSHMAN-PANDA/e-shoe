@@ -3,33 +3,84 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import { useState } from "react";
+import axios from "axios";
+
+// const api = axios.create({
+//   baseURL: `http://localhost:5000/users`,
+// });
 
 const Loginform = () => {
   const [overlay, setOverlay] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [err, setErr] = useState(false);
+  const [errMsg, setErrMsg] = useState("error-msg");
 
-  const onSubmit = (e) => {
+  const requestLogin = (e) => {
     e.preventDefault();
     const data = { email, password };
     email === ""
-      ? alert("provide email")
+      ? errorAlert("Email")
       : password === ""
-      ? alert("Provide Password")
-      : console.log(JSON.stringify(data));
+      ? errorAlert("Password")
+      : login(data);
+  };
+
+  const errorAlert = (type) => {
+    setErr(true);
+    setErrMsg(`Please provide ` + type);
+    setTimeout(() => {
+      setErr(false);
+      setErrMsg("");
+    }, 3000);
+  };
+
+  const login = (data) => {
+    axios
+      .post("/auth", data)
+      .then((res) => {
+        console.log(res.data);
+        alert("auth success");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("auth failed");
+      });
     setEmail("");
     setPassword("");
   };
 
-  const onSubmit2 = (e) => {
+  //   useEffect(() => {
+  //     // GET request using axios inside useEffect React hook
+  //     axios
+  //       .get("/users")
+  //       .then((response) => console.log(response.data))
+  //       .catch((e) => console.log(e));
+
+  //     // empty dependency array means this effect will only run once (like componentDidMount in classes)
+  //   }, []);
+
+  const requestRegister = (e) => {
     e.preventDefault();
     const data = { email, password };
     email === ""
-      ? alert("provide email")
+      ? errorAlert("Email")
       : password === ""
-      ? alert("Provide Password")
-      : console.log(JSON.stringify(data));
+      ? errorAlert("Password")
+      : register(data);
+  };
 
+  const register = (data) => {
+    axios
+      .post("/register", data)
+      .then((res) => {
+        console.log(res.data);
+        alert("Email Registered");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Registration failed");
+      });
     setEmail("");
     setPassword("");
   };
@@ -42,7 +93,7 @@ const Loginform = () => {
         id="container"
       >
         <div className="form-container sign-up-container">
-          <form action="#" onSubmit={onSubmit2}>
+          <form action="#" onSubmit={requestRegister}>
             <h1>Create Account</h1>
             <div className="social-container">
               <a href="/" className="social">
@@ -69,11 +120,15 @@ const Loginform = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button>Sign Up</button>
+            {err ? (
+              <div className="msg">{errMsg}</div>
+            ) : (
+              <button type="submit">Sign Up</button>
+            )}
           </form>
         </div>
         <div className="form-container sign-in-container">
-          <form action="#" id="sign-in-form" onSubmit={onSubmit}>
+          <form action="#" id="sign-in-form" onSubmit={requestLogin}>
             <h1>Sign in</h1>
             <div className="social-container">
               <a href="/" className="social">
@@ -101,9 +156,12 @@ const Loginform = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="msg"></div>
             <a href="/">Forgot your password?</a>
-            <button type="submit">Sign In</button>
+            {err ? (
+              <div className="msg">{errMsg}</div>
+            ) : (
+              <button type="submit">Sign In</button>
+            )}
           </form>
         </div>
         <div className="overlay-container">

@@ -1,11 +1,12 @@
-import Navbar from "./components/Navbar";
-import Loginform from "./components/Loginform";
+// import Navbar from "./components/Navbar";
+// import Loginform from "./components/Loginform";
+import FrontPage from "./components/FrontPage";
 
 function App() {
   return (
     <div>
-      <Navbar />
-      <Loginform />
+      {/* <Loginform /> */}
+      <FrontPage />
     </div>
   );
 }

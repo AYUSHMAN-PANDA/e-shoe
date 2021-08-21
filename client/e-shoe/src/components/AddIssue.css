@@ -1,0 +1,38 @@
+    * {
+        box-sizing: border-box;
+    }
+    
+    body {
+        background: #f6f5f7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        font-family: 'Montserrat', sans-serif;
+        height: 100vh;
+        margin: -20px 0 50px;
+    }
+
+    
+
+    form {
+        background-color: #fcf8f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 50px;
+        height: 100%;
+        text-align: center;
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+			0 10px 10px rgba(0,0,0,0.22);
+    }
+    
+    .make-center {
+        font-weight: bold;
+        margin: 0;
+        text-align: center;
+    }
+    h2 {
+        text-align: center;
+    }
