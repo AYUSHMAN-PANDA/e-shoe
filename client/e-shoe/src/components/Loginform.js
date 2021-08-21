@@ -4,6 +4,7 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import { useState } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 // const api = axios.create({
 //   baseURL: `http://localhost:5000/users`,
@@ -11,6 +12,7 @@ import axios from "axios";
 
 const Loginform = () => {
   const [overlay, setOverlay] = useState(true);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState(false);
@@ -39,30 +41,22 @@ const Loginform = () => {
     axios
       .post("/auth", data)
       .then((res) => {
-        console.log(res.data);
-        alert("auth success");
+        console.log(res.data.name, res.data.role);
+        localStorage.setItem("user_name", res.data.name);
+        localStorage.setItem("user_role", res.data.role);
+        history.push("/front");
+        setEmail("");
+        setPassword("");
       })
       .catch((err) => {
         console.log(err);
         alert("auth failed");
       });
-    setEmail("");
-    setPassword("");
   };
-
-  //   useEffect(() => {
-  //     // GET request using axios inside useEffect React hook
-  //     axios
-  //       .get("/users")
-  //       .then((response) => console.log(response.data))
-  //       .catch((e) => console.log(e));
-
-  //     // empty dependency array means this effect will only run once (like componentDidMount in classes)
-  //   }, []);
 
   const requestRegister = (e) => {
     e.preventDefault();
-    const data = { email, password };
+    const data = { name, email, password };
     email === ""
       ? errorAlert("Email")
       : password === ""
@@ -75,15 +69,18 @@ const Loginform = () => {
       .post("/register", data)
       .then((res) => {
         console.log(res.data);
-        alert("Email Registered");
+        alert("Registration Successful");
       })
       .catch((err) => {
         console.log(err);
         alert("Registration failed");
       });
+    setName("");
     setEmail("");
     setPassword("");
   };
+
+  const history = useHistory();
 
   return (
     <div>
@@ -108,6 +105,12 @@ const Loginform = () => {
             </div>
             <span>or use your email for registration</span>
             {/* <input type="text" placeholder="Name" /> */}
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
             <input
               type="email"
               placeholder="Email"
