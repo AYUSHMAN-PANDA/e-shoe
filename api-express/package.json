@@ -1,5 +1,5 @@
 {
-  "name": "api-restify",
+  "name": "api-express",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,21 +7,20 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "cas-authentication": "^0.0.8",
+    "body-parser": "^1.19.0",
     "connect-cas": "^1.8.1",
     "connect-cas2": "^1.2.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.7",
-    "mongoose-timestamp": "^0.6.0",
-    "restify": "^8.5.1",
     "restify-errors": "^8.0.2",
-    "restify-jwt-community": "^1.1.16",
-    "restify-session": "^1.1.1",
+    "restify-express": "^0.2.2",
     "session-memory-store": "^1.0.0"
   },
   "devDependencies": {

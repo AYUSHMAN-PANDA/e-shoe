@@ -13,8 +13,6 @@ import { useState, useEffect } from "react";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import "./AddIssue.css";
-// import Login from "./Loginform";
-// import { Link } from "react-router-dom";
 import AddIssue from "./AddIssue";
 import UpdateIssue from "./UpdateIssue";
 import { useHistory } from "react-router-dom";

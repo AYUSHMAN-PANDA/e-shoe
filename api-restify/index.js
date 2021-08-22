@@ -2,6 +2,10 @@ const restify = require("restify");
 const mongoose = require("mongoose");
 const config = require("./config"); //create a config file if not found in the same directory
 const rjwt = require("restify-jwt-community"); //for protected routes
+// var CASAuthentication = require("cas-authentication");
+const { cas, casClient } = require("./casAuth");
+var session = require("restify-session");
+// var MemoryStore = require("session-memory-store")(session);
 
 const server = restify.createServer();
 
@@ -21,6 +25,17 @@ server.listen(config.PORT, () => {
   });
 });
 
+// server.use(casClient.core());
+
+// session({
+//   debug: true,
+//   ttl: 2,
+// });
+// server.use(session.sessionManager);
+// server.get("/sess", function (req, res, next) {
+//   res.send({ success: true, session: req.session });
+//   return next();
+// });
 const db = mongoose.connection;
 
 db.on("error", (err) => console.log(err));
