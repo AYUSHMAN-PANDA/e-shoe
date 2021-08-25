@@ -5,6 +5,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { Button } from "@material-ui/core";
 
 // const api = axios.create({
 //   baseURL: `http://localhost:5000/users`,
@@ -30,13 +31,39 @@ const Loginform = () => {
 
   const errorAlert = (type) => {
     setErr(true);
-    setErrMsg(`Please provide ` + type);
+
+    if (type === -1) {
+      setErrMsg(`Authentication Failed`);
+    } else {
+      setErrMsg(`Please provide ` + type);
+    }
+
     setTimeout(() => {
       setErr(false);
       setErrMsg("");
     }, 3000);
   };
 
+  // const getCasInfo = (res) => {
+  //   localStorage.setItem("casAuth", res.data.casAuth);
+  //   localStorage.setItem("casName", res.data.name);
+  //   localStorage.setItem("casRoll", res.data.roll);
+  // };
+  const handleCasLogin = () => {
+    window.location.href = "http://localhost:5000/login";
+
+    // axios
+    //   .get("/casLogin")
+    //   .then((res) => {
+    //     console.log(res.data.casAuth);
+    //     getCasInfo(res);
+    //     history.push("/front");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     window.location.href = "http://localhost:5000/login";
+    //   });
+  };
   const login = (data) => {
     axios
       .post("/auth", data)
@@ -50,7 +77,7 @@ const Loginform = () => {
       })
       .catch((err) => {
         console.log(err);
-        alert("auth failed");
+        errorAlert(-1);
       });
   };
 
@@ -92,17 +119,11 @@ const Loginform = () => {
         <div className="form-container sign-up-container">
           <form action="#" onSubmit={requestRegister}>
             <h1>Create Account</h1>
-            <div className="social-container">
-              <a href="/" className="social">
-                <FacebookIcon />
-              </a>
-              <a href="/" className="social">
-                <GitHubIcon />
-              </a>
-              <a href="/" className="social">
-                <LinkedInIcon />
-              </a>
+            <br />
+            <div>
+              <button onClick={handleCasLogin}>Cas Login</button>
             </div>
+            <br />
             <span>or use your email for registration</span>
             {/* <input type="text" placeholder="Name" /> */}
             <input
@@ -133,17 +154,13 @@ const Loginform = () => {
         <div className="form-container sign-in-container">
           <form action="#" id="sign-in-form" onSubmit={requestLogin}>
             <h1>Sign in</h1>
-            <div className="social-container">
-              <a href="/" className="social">
-                <FacebookIcon />
-              </a>
-              <a href="/" className="social">
-                <GitHubIcon />
-              </a>
-              <a href="/" className="social">
-                <LinkedInIcon />
-              </a>
+            <br />
+            <div>
+              <Button variant="outlined" onClick={handleCasLogin}>
+                Cas Login
+              </Button>
             </div>
+            <br />
             <span>or use your account</span>
             <input
               id="email"

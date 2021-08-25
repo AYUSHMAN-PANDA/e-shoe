@@ -22,6 +22,10 @@ const issues = new mongoose.Schema({
     enum: ["open", "assigned", "fixed", "abandoned"],
     default: "open",
   },
+  postedBy: {
+    type: String,
+    required: true,
+  },
 });
 
 // userSchema.plugin(timestamp);

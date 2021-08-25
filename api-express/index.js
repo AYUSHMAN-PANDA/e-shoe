@@ -36,18 +36,17 @@ app.listen(config.PORT, () => {
 });
 
 //homepage
-console.log(cas.configure());
-app.get("/", function (req, res) {
+// console.log(cas.configure());
+app.get("/casLogin", function (req, res) {
+  // console.log(req.session.cas);
   if (req.session.cas && req.session.cas.user) {
-    return res.send(
-      "<p>You are logged in. Your username is " +
-        req.session.cas.user +
-        '. <a href="/logout">Log Out</a></p>'
-    );
+    return res.send({
+      casAuth: true,
+      name: req.session.cas.attributes.Name,
+      roll: req.session.cas.attributes.RollNo,
+    });
   } else {
-    return res.send(
-      '<p>You are not logged in. <a href="/login">Log in now.</a><p>'
-    );
+    res.redirect("/login");
   }
 });
 
@@ -58,7 +57,13 @@ app.get(
   cas.authenticate(),
   function (req, res) {
     // Great, we logged in, now redirect back to the home page.
-    return res.redirect("/");
+    // res.send("logged in");
+    // return res.send({
+    //   casAuth: true,
+    //   name: req.session.cas.attributes.Name,
+    //   roll: req.session.cas.attributes.RollNo,
+    // });
+    res.redirect("http://localhost:3000/front");
   }
 );
 

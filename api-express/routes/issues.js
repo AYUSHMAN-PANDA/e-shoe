@@ -4,20 +4,15 @@ const { cas, casClient } = require("../casAuth");
 
 module.exports = (server) => {
   //get all issues
-  server.get(
-    "/allIssues",
-    cas.serviceValidate(),
-    cas.authenticate(),
-    async (req, res, next) => {
-      try {
-        const all_issues = await issues.find({});
-        res.send(all_issues);
-        next();
-      } catch (err) {
-        return next(new errors.InvalidContentError(err));
-      }
+  server.get("/allIssues", async (req, res, next) => {
+    try {
+      const all_issues = await issues.find({});
+      res.send(all_issues);
+      next();
+    } catch (err) {
+      return next(new errors.InvalidContentError(err));
     }
-  );
+  });
 
   //add an issue
 
@@ -28,6 +23,7 @@ module.exports = (server) => {
       assignees: req.body.assignees,
       tags: req.body.tags,
       state: req.body.state,
+      postedBy: req.body.pBy,
     });
 
     new_issue

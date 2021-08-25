@@ -35,11 +35,39 @@ const FrontPage = () => {
   const classes = useStyles();
   const user_name = localStorage.getItem("user_name");
   const user_role = localStorage.getItem("user_role");
+  const user_cas = localStorage.getItem("casAuth");
+  const user_casName = localStorage.getItem("casName");
+  const user_casRoll = localStorage.getItem("casRoll");
+
+  const getCasInfo = (res) => {
+    localStorage.setItem("casAuth", res.data.casAuth);
+    localStorage.setItem("casName", res.data.name);
+    localStorage.setItem("casRoll", res.data.roll);
+  };
+  const handleCasLogin = () => {
+    axios
+      .get("/casLogin")
+      .then((res) => {
+        console.log(res.data.casAuth);
+        getCasInfo(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        // window.location.href = "http://localhost:5000/login";
+      });
+  };
 
   const logout = () => {
-    localStorage.setItem("user_name", "");
-    localStorage.setItem("user_role", "");
-    history.push("/");
+    if (user_cas) {
+      localStorage.setItem("casAuth", "");
+      localStorage.setItem("casName", "");
+      localStorage.setItem("casRoll", "");
+      window.location.href = "http://localhost:5000/logout";
+    } else {
+      localStorage.setItem("user_name", "");
+      localStorage.setItem("user_role", "");
+      history.push("/");
+    }
   };
 
   const getIssues = () => {
@@ -83,10 +111,14 @@ const FrontPage = () => {
     getIssues();
   }, [updateIssueList]);
 
+  useEffect(() => {
+    handleCasLogin();
+  }, []);
+
   return (
     <>
-      {user_name === "" || user_role === "" ? (
-        <div>No users found {history.push("/")}</div>
+      {user_name === "" && user_role === "" && !user_cas ? (
+        <div>No users found{user_casName}</div>
       ) : (
         <div>
           <TableContainer component={Paper}>
@@ -110,6 +142,7 @@ const FrontPage = () => {
                   <TableCell align="center">Description</TableCell>
                   <TableCell align="center">State</TableCell>
                   <TableCell align="center">Tags</TableCell>
+                  <TableCell align="center">Posted By</TableCell>
                   <TableCell align="center">Edit Issue</TableCell>
                   <TableCell align="center">Delete Issue</TableCell>
                 </TableRow>
@@ -124,30 +157,42 @@ const FrontPage = () => {
                     <TableCell align="center">{row.description}</TableCell>
                     <TableCell align="center">{row.state}</TableCell>
                     <TableCell align="center">{row.tags}</TableCell>
-                    <TableCell align="center">
-                      <Button
-                        onClick={() => {
-                          setShowAdd(false);
-                          setShowUpdate(true);
-                          setUpdateId(row._id);
-                        }}
-                        variant="outlined"
-                        color="primary"
-                      >
-                        <EditIcon />
-                      </Button>
-                    </TableCell>
-                    <TableCell align="right">
-                      <Button
-                        onClick={() => {
-                          handleDeleteOne(row._id);
-                        }}
-                        variant="outlined"
-                        color="secondary"
-                      >
-                        <DeleteOutlineIcon />
-                      </Button>
-                    </TableCell>
+                    <TableCell align="center">{row.postedBy}</TableCell>
+                    {user_name === row.postedBy ||
+                    user_casName === row.postedBy ||
+                    user_role === "admin" ? (
+                      <TableCell align="center">
+                        <Button
+                          onClick={() => {
+                            setShowAdd(false);
+                            setShowUpdate(true);
+                            setUpdateId(row._id);
+                          }}
+                          variant="outlined"
+                          color="primary"
+                        >
+                          <EditIcon />
+                        </Button>
+                      </TableCell>
+                    ) : (
+                      ""
+                    )}
+                    {user_name === row.postedBy ||
+                    user_casName === row.postedBy ? (
+                      <TableCell align="right">
+                        <Button
+                          onClick={() => {
+                            handleDeleteOne(row._id);
+                          }}
+                          variant="outlined"
+                          color="secondary"
+                        >
+                          <DeleteOutlineIcon />
+                        </Button>
+                      </TableCell>
+                    ) : (
+                      ""
+                    )}
                   </TableRow>
                 ))}
               </TableBody>

@@ -26,6 +26,7 @@ const AddIssue = () => {
     tags: "",
     assignees: "",
     state: "open",
+    pBy: localStorage.getItem("user_name") || localStorage.getItem("casName"),
   });
 
   const handleChange = (e) => {
@@ -42,7 +43,7 @@ const AddIssue = () => {
     // console.log(send_issue);
     axios
       .post("/addIssue", send_issue)
-      .then((res) => console.log("sent"))
+      .then((res) => console.log(send_issue))
       .catch((err) => {
         console.log(err);
       });
@@ -53,6 +54,7 @@ const AddIssue = () => {
       tags: "",
       assignees: "",
       state: "open",
+      pBy: "",
     });
   };
 
