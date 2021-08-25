@@ -92,7 +92,9 @@ if (1) {
   app.use(express.static("../client/e-shoe/build"));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "..", "client", "e-shoe", "build"));
+    res.sendFile(
+      path.resolve(__dirname, "..", "client", "e-shoe", "build", "index.html")
+    );
   });
 }
 const db = mongoose.connection;
