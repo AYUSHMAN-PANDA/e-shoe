@@ -4,3 +4,5 @@ api-restify/node_modules
 api-express/config.js
 api-express/node_modules
 
+client/e-shoe/build
+

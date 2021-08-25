@@ -17,6 +17,9 @@ import AddIssue from "./AddIssue";
 import UpdateIssue from "./UpdateIssue";
 import { useHistory } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import Chip from "@material-ui/core/Chip";
+import { Link } from "react-router-dom";
+import GroupIcon from "@material-ui/icons/Group";
 
 const useStyles = makeStyles({
   table: {
@@ -76,6 +79,18 @@ const FrontPage = () => {
       .then((res) => {
         setIssues(res.data);
         console.log(issues);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const filterTag = (tag) => {
+    axios
+      .get(`/search-by-tag/${tag}`)
+      .then((res) => {
+        console.log(res.data);
+        setIssues(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -156,7 +171,14 @@ const FrontPage = () => {
                     </TableCell>
                     <TableCell align="center">{row.description}</TableCell>
                     <TableCell align="center">{row.state}</TableCell>
-                    <TableCell align="center">{row.tags}</TableCell>
+                    <TableCell align="center">
+                      <Chip
+                        label={row.tags}
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => filterTag(row.tags)}
+                      />
+                    </TableCell>
                     <TableCell align="center">{row.postedBy}</TableCell>
                     {user_name === row.postedBy ||
                     user_casName === row.postedBy ||
@@ -175,7 +197,7 @@ const FrontPage = () => {
                         </Button>
                       </TableCell>
                     ) : (
-                      ""
+                      <TableCell align="center">X</TableCell>
                     )}
                     {user_name === row.postedBy ||
                     user_casName === row.postedBy ? (
@@ -191,7 +213,7 @@ const FrontPage = () => {
                         </Button>
                       </TableCell>
                     ) : (
-                      ""
+                      <TableCell align="center">X</TableCell>
                     )}
                   </TableRow>
                 ))}
@@ -235,10 +257,19 @@ const FrontPage = () => {
             </div>
             <br />
           </TableContainer>
-          <Button color="secondary" variant="outlined" onClick={logout}>
-            <ExitToAppIcon />
-            Logout
-          </Button>
+          <br />
+          <div className="make-center">
+            <Button color="secondary" variant="outlined" onClick={logout}>
+              <ExitToAppIcon />
+              Logout
+            </Button>
+            &nbsp; &nbsp;
+            <Link to="/all-users" activeClassName="active">
+              <Button variant="outlined" color="secondary">
+                <GroupIcon /> All Users
+              </Button>
+            </Link>
+          </div>
         </div>
       )}
     </>

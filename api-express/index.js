@@ -8,7 +8,6 @@ const { cas, casClient } = require("./casAuth");
 const session = require("express-session");
 const MemoryStore = require("session-memory-store")(session);
 const mysecret = config.SESSION_SECRET;
-
 app.use(
   session({
     secret: mysecret,
@@ -29,6 +28,10 @@ app.use(
 // app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+if (config.ENV === "production") {
+  app.use(express.static("../client/e-shoe/build"));
+}
 app.listen(config.PORT, () => {
   mongoose.connect(config.MONGODB_URI, {
     useNewUrlParser: true,

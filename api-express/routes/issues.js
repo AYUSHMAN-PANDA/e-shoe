@@ -92,4 +92,19 @@ module.exports = (server) => {
       );
     }
   });
+
+  //delete all issues
+  server.get("/search-by-tag/:tag", async (req, res, next) => {
+    try {
+      const found_user = await issues.find({ tags: [req.params.tag] });
+      res.send(found_user);
+      next();
+    } catch (err) {
+      return next(
+        new errors.ResourceNotFoundError(
+          `No user with the matching condition found`
+        )
+      );
+    }
+  });
 };
