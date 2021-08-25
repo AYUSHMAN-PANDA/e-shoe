@@ -30,16 +30,6 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-if (process.env.NODE_ENV === "production") {
-  //set static folder
-  app.use(express.static("../client/e-shoe/build"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname, "..", "client", "e-shoe", "build", "index.html")
-    );
-  });
-}
 app.listen(config.PORT, () => {
   mongoose.connect(config.MONGODB_URI, {
     useNewUrlParser: true,
@@ -94,9 +84,19 @@ app.get("/logout", function (req, res) {
     req.session = null;
   }
   //res.redirect('/reviews.html')
-  res.redirect("https://login.iiit.ac.in/cas/logout");
+  // res.redirect("https://login.iiit.ac.in/cas/logout");
+  res.redirect("/index.html");
 });
+if (process.env.NODE_ENV === "production") {
+  //set static folder
+  app.use(express.static("../client/e-shoe/build"));
 
+  app.get("*", (req, res) => {
+    res.sendFile(
+      path.resolve(__dirname, "..", "client", "e-shoe", "build", "index.html")
+    );
+  });
+}
 const db = mongoose.connection;
 
 db.on("error", (err) => console.log(err));
