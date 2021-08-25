@@ -64,7 +64,8 @@ app.get(
     //   name: req.session.cas.attributes.Name,
     //   roll: req.session.cas.attributes.RollNo,
     // });
-    res.redirect("http://localhost:3000/front");
+    // res.redirect("http://localhost:3000/front");
+    res.redirect("/index.html");
   }
 );
 
@@ -84,8 +85,7 @@ app.get("/logout", function (req, res) {
     req.session = null;
   }
   //res.redirect('/reviews.html')
-  // res.redirect("https://login.iiit.ac.in/cas/logout");
-  res.redirect("/index.html");
+  res.redirect("https://login.iiit.ac.in/cas/logout");
 });
 if (process.env.NODE_ENV === "production") {
   //set static folder
