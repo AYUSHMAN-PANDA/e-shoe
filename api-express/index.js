@@ -8,6 +8,7 @@ const { cas, casClient } = require("./casAuth");
 const session = require("express-session");
 const MemoryStore = require("session-memory-store")(session);
 const mysecret = config.SESSION_SECRET;
+const path = require("path");
 app.use(
   session({
     secret: mysecret,
@@ -29,8 +30,15 @@ app.use(
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-if (config.ENV === "production") {
+if (process.env.NODE_ENV === "production") {
+  //set static folder
   app.use(express.static("../client/e-shoe/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(
+      path.resolve(__dirname, "..", "client", "e-shoe", "build", "index.html")
+    );
+  });
 }
 app.listen(config.PORT, () => {
   mongoose.connect(config.MONGODB_URI, {
