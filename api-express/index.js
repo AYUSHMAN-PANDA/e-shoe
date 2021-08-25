@@ -87,7 +87,7 @@ app.get("/logout", function (req, res) {
   //res.redirect('/reviews.html')
   res.redirect("https://login.iiit.ac.in/cas/logout");
 });
-if (process.env.NODE_ENV === "production") {
+if (1) {
   //set static folder
   app.use(express.static("../client/e-shoe/build"));
 
