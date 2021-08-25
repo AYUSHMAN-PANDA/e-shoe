@@ -65,7 +65,7 @@ app.get(
     //   roll: req.session.cas.attributes.RollNo,
     // });
     // res.redirect("http://localhost:3000/front");
-    res.redirect("/index.html");
+    res.redirect("/front");
   }
 );
 
@@ -92,9 +92,7 @@ if (1) {
   app.use(express.static("../client/e-shoe/build"));
 
   app.get("*", (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname, "..", "client", "e-shoe", "build", "index.html")
-    );
+    res.sendFile(path.resolve(__dirname, "..", "client", "e-shoe", "build"));
   });
 }
 const db = mongoose.connection;
