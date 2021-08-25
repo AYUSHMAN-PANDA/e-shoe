@@ -87,12 +87,12 @@ app.get("/logout", function (req, res) {
   //res.redirect('/reviews.html')
   res.redirect("https://login.iiit.ac.in/cas/logout");
 });
-if (1) {
+if (0) {
   //set static folder
-  app.use(express.static("./build"));
+  app.use(express.static("../client/e-shoe/build"));
 
-  app.get("/client", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "..", "client", "e-shoe", "build"));
   });
 }
 const db = mongoose.connection;
