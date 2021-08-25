@@ -89,12 +89,10 @@ app.get("/logout", function (req, res) {
 });
 if (1) {
   //set static folder
-  app.use(express.static("../client/e-shoe/build"));
+  app.use(express.static("./build"));
 
   app.get("/client", (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname, "..", "client", "e-shoe", "build", "index.html")
-    );
+    res.sendFile(path.resolve(__dirname, "build", "index.html"));
   });
 }
 const db = mongoose.connection;
