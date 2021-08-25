@@ -91,11 +91,11 @@ if (1) {
   //set static folder
   app.use(express.static("../client/e-shoe/build"));
 
-  app.get("*", (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname, "..", "client", "e-shoe", "build", "index.html")
-    );
-  });
+  // app.get("*", (req, res) => {
+  //   res.sendFile(
+  //     path.resolve(__dirname, "..", "client", "e-shoe", "build", "index.html")
+  //   );
+  // });
 }
 const db = mongoose.connection;
 
